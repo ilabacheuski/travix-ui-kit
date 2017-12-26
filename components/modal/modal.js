@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import classnames from 'classnames';
 
 import Global from '../global/global';
 import KEY_CODE from '../constants/keyCode';
-import { getClassNamesWithMods } from '../_helpers';
+import { getClassNamesWithMods, getDataAttributes } from '../_helpers';
 
 /**
  * Modal component
@@ -150,7 +151,12 @@ class Modal extends Component {
   }
 
   render() {
-    const { fullscreen, children } = this.props;
+    const {
+      children,
+      className,
+      dataAttrs,
+      fullscreen,
+    } = this.props;
     const { isActive, isOpen } = this.state;
     const mods = this.props.mods ? this.props.mods.slice() : [];
 
@@ -169,10 +175,10 @@ class Modal extends Component {
       mods.push('fullscreen');
     }
 
-    const className = getClassNamesWithMods('ui-modal', mods);
+    const classNames = classnames(getClassNamesWithMods('ui-modal', mods), className);
 
     return (
-      <Global className={className}>
+      <Global className={classNames} {...getDataAttributes(dataAttrs)}>
         {this.renderOverlay()}
         <div className={'ui-modal__container'}>
           {this.renderCloseButton()}
@@ -213,6 +219,10 @@ Modal.propTypes = {
    */
   children: PropTypes.node,
   /**
+   * Custom classname
+   */
+  className: PropTypes.string,
+  /**
    * Determine whether a close button is visible on top right of the modal dialog or not
    */
   closable: PropTypes.bool,
@@ -228,6 +238,13 @@ Modal.propTypes = {
    * Determine whether to close the modal dialog when clicked on overlay.
    */
   closeOnOverlayClick: PropTypes.bool,
+  /**
+   * Data attribute. You can use it to set up any custom data-* attribute.
+   */
+  dataAttrs: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+  ]),
   /**
    * Determine the additional delay for modal to be present
    */
