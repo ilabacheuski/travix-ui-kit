@@ -131,7 +131,7 @@
 .ui-modal__content {
   -webkit-overflow-scrolling: touch;
   background-color: var(--tx-modal-content-background-color);
-  max-height: calc(54vh);
+  max-height: 54vh;
   overflow-y: auto;
   padding: 22px var(--tx-modal-content-padding-left-right);
 }
